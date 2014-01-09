@@ -3,7 +3,8 @@ graph = require('./lib/graph')
 var g = new graph.Graph()
 g.createNode(1, {color: 'blue'});
 console.log(g);
-console.log(g.nodes);
+console.log(g.graph);
+g.saveGraph('testgraph.json');
 
 
 var server = http.createServer(function(req, res) {
