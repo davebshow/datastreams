@@ -1,7 +1,7 @@
 http = require('http');
 
-dataStreams = require('./lib/streams');
-ds = dataStreams.DataStreams('/tmp/test2.db');
+streams = require('./lib/streams');
+ds = streams.datastreams('/tmp/test2.db');
 
 ds.addNode('store', 'Brix', {unique: 'Brix', extra: 'this worked'})
 ds.addNode('store', 'Comp', {unique: 'Comp', extra: 'twice'})
@@ -23,8 +23,8 @@ storeWineStream.addData(['Comp', 'White'], {unique: 'White', owner: 'Guy'})
 // using the callbacks
 var stream3 = ['wine', 'winery']
 ds.createStream(stream3, function(stream) {
-	stream.addData(['Red', 'Hinman'], {unique: 'Hinman', place: 'Oregon'})
-	//stream.readStream()
+    stream.addData(['Red', 'Hinman'], {unique: 'Hinman', place: 'Oregon'})
+    //stream.readStream()
 });
 
 
@@ -44,8 +44,8 @@ var db = ds.db;
 
 
 var server = http.createServer(function(req, res) {
-	res.writeHead(200);
-	res.end(JSON.stringify(g));
+    res.writeHead(200);
+    res.end(JSON.stringify(g));
 });
 
 server.listen(3000);
