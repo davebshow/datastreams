@@ -1,34 +1,41 @@
 http = require('http');
 
-streams = require('./lib/streams');
-ds = streams.datastreams('/tmp/test2.db');
+datastreams = require('./lib/datastreams');
+ds = datastreams.DataStreams('/home/dbshow1/level/dev.db');
+//ds.stream().on('data', function(data) {console.log('stream', data)})
 
-ds.addNode('store', 'Brix', {unique: 'Brix', extra: 'this worked'})
-ds.addNode('store', 'Comp', {unique: 'Comp', extra: 'twice'})
+var storeStream = ds.createStream('store')
+storeStream.addData('Brix', {unique: 'Brix', extra: 'this worked'})
+storeStream.addData('Comp', {unique: 'Comp', extra: 'twice'})
 // Imperative paradigm
 var stream1 = ['zip', 'store']
 
 var zipStoreStream = ds.createStream(stream1);
 zipStoreStream.addData(['52245', 'Brix'], {unique:'Brix'})
 zipStoreStream.addData(['52240', 'Comp'], {unique: 'Comp'})
-zipStoreStream.readStream();
+zipStoreStream.linkedStreamToObject()
 
 var stream2 = ['store', 'wine']
 
 var storeWineStream = ds.createStream(stream2);
 storeWineStream.addData(['Brix', 'Red'], {unique: 'Red', owner: 'Nick'})
 storeWineStream.addData(['Comp', 'White'], {unique: 'White', owner: 'Guy'})
-//storeWineStream.readStream('Comp');
+storeWineStream.simpleStream()
 
 // using the callbacks
 var stream3 = ['wine', 'winery']
 ds.createStream(stream3, function(stream) {
     stream.addData(['Red', 'Hinman'], {unique: 'Hinman', place: 'Oregon'})
-    //stream.readStream()
+    //stream.linkedStream()
 });
 
+zipStoreStream.linkedStreamToStream(storeWineStream).on('data', function(data) {
+    var stream = data.value
+    var key = data.key
+    stream.on('data', function (chunk) {console.log('joined', key, chunk  )})
+})
 
-zipStoreStream.joinStream(storeWineStream, '52245');
+
 
 var db = ds.db;
 
@@ -36,9 +43,9 @@ var db = ds.db;
 
     // read the whole store as a stream and print each entry to stdout
     //db.createReadStream()
-    //  .on('data', console.log)
+    //  .on('data', function(data) {console.log('read')})
     //  .on('close', function () {
-    //    db.close()
+    //db.close()
     //  })
 
 
