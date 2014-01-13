@@ -1,7 +1,7 @@
 http = require('http');
 
 datastreams = require('./lib/datastreams');
-ds = datastreams.DataStreams('/home/dbshow1/level/dev.db');
+ds = datastreams.DataStreams('/home/dbshow/level/dev.db');
 //ds.stream().on('data', function(data) {console.log('stream', data)})
 
 var storeStream = ds.createStream('store')
@@ -24,12 +24,12 @@ storeWineStream.simpleStream()
 
 // using the callbacks
 var stream3 = ['wine', 'winery']
-ds.createStream(stream3, function(stream) {
+ds.createStream(stream3, function(err, stream) {
     stream.addData(['Red', 'Hinman'], {unique: 'Hinman', place: 'Oregon'})
     //stream.linkedStream()
 });
 
-zipStoreStream.linkedStreamToStream(storeWineStream).on('data', function(data) {
+zipStoreStream.linkedStreamToStream(storeWineStream, {start:'52244'}).on('data', function(data) {
     var stream = data.value
     var key = data.key
     stream.on('data', function (chunk) {console.log('joined', key, chunk  )})
