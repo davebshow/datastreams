@@ -1,7 +1,7 @@
 http = require('http');
 
 datastreams = require('./lib/datastreams');
-ds = datastreams.DataStreams('/home/dbshow/level/dev.db');
+ds = datastreams.DataStreams('/home/dbshow/level/test1.db');
 //ds.stream().on('data', function(data) {console.log('stream', data)})
 
 var storeStream = ds.createStream('store')
