@@ -29,11 +29,8 @@ ds.createStream(stream3, function(err, stream) {
     //stream.linkedStream()
 });
 
-zipStoreStream.linkedStreamToStream(storeWineStream, {start:'52244'}).on('data', function(data) {
-    var stream = data.value
-    var key = data.key
-    stream.on('data', function (chunk) {console.log('joined', key, chunk  )})
-})
+zipStoreStream.linkedStreamToStream(storeWineStream)
+    .on('data', function(data) {console.log('client happy')})
 
 
 
