@@ -30,7 +30,7 @@ ds.createStream(stream3, function(err, stream) {
 });
 
 zipStoreStream.linkedStreamToStream(storeWineStream)
-    .on('data', function(data) {console.log('client happy')})
+    .on('data', function(data) {console.log(data)})
 
 
 
